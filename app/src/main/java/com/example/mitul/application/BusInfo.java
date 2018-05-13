@@ -1,8 +1,8 @@
 package com.example.mitul.application;
 
 public class BusInfo {
-    int bus_id;
-    String bus_name;
+    private int bus_id;
+    private String bus_name;
 
     public BusInfo(int bus_id, String bus_name) {
         this.bus_id = bus_id;

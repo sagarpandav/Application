@@ -34,6 +34,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mitul.application.api.directionapi.DirectionClient;
+import com.example.mitul.application.api.main.MainApiClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -52,8 +54,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
 
     GoogleMap mGoogleMap;
     GoogleApiClient mGoogleApiClient;
@@ -75,16 +87,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         rootLayout = findViewById(R.id.rootMainLayout);
 
-
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -96,7 +98,6 @@ public class MainActivity extends AppCompatActivity
 
         View headView = navigationView.getHeaderView(0);
         TextView profileName = headView.findViewById(R.id.username);
-
 
         sharedPreferences = getSharedPreferences("loginPref", Context.MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "-1");
@@ -112,11 +113,6 @@ public class MainActivity extends AppCompatActivity
             nav_menu.findItem(R.id.nav_logout).setVisible(false);
         }
 
-
-
-        //profileName.setTextColor(0xff0000ff);
-
-        LinearLayout header = (LinearLayout) findViewById(R.id.header);
         profileName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +127,8 @@ public class MainActivity extends AppCompatActivity
             //no layout
         }
     }
+
+
 
     public void init() {
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
@@ -233,6 +231,10 @@ public class MainActivity extends AppCompatActivity
                 editor.apply();
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
+
+//            case R.id.verify_phone_activity:
+//                startActivity(new Intent(this, PhoneVerificationActivity.class));
+//                break;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

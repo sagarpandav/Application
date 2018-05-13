@@ -54,4 +54,9 @@
     <string name="fare_">Fare</string>
     <string name="_101">101</string>
     <string name="bus">Bus</string>
+
+    <string name="about_text_1">BRTS for Surat is a multifaceted project which integrates land use and transport, various forms of public transport services as well as other motorized and non-motorized modes through various physical, operational and policy interventions to achieve the objective of making Surat an accessible and competitive city. Given this multi-dimensional nature of the project, anticipated impacts are numerous and some measurable and some qualitative.</string>
+    <string name="about_text_2">The proposed Bus Rapid Transit System will be a high quality, ultra-modern and passenger oriented rapid transit system to deliver fast, comfortable, economical and eco-friendly mobility to urban dwellers. By introducing the BRT system, the overall traffic flow will improve as significant shift from privatized modes towards BRT system is expected. Based on a detailed assessment, it is recommended to develop a BRTS of around 29.7 km in phase-I and 58 km in phase 2.</string>
+    <string name="about_text_3">An integrated transit system comprising of BRT, regular urban bus, regional bus and regional rail are envisaged to deliver the feeder services to meet with the needs of people of Surat.</string>
+
 </resources>

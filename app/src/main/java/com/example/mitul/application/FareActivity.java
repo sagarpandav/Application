@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -14,7 +15,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mitul.application.api.main.MainApiClient;
+
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FareActivity extends AppCompatActivity {
 
@@ -72,6 +81,8 @@ public class FareActivity extends AppCompatActivity {
                     textView12.setText(destination);
                     String fare = null;
 
+                    callAPI(_source_, _destination_);
+
                     Random rand = new Random();
 
                     int  n = rand.nextInt(25) + 10;
@@ -93,6 +104,30 @@ public class FareActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(FareActivity.this, "Route not Found", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+    }
+
+    private void callAPI(String source, String destination) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://localhost:55616/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        MainApiClient myClient = retrofit.create(MainApiClient.class);
+
+        Call<Object> call = myClient.getData(source, destination);
+
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                String data = response.body().toString();
+                Log.e("Response", data);
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("Response", "No");
             }
         });
     }

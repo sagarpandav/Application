@@ -5,28 +5,39 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:icon="@drawable/login"
             android:id="@+id/nav_login"
             android:title="@string/Login" />
         <item
+            android:icon="@drawable/searching_magnifying_glass"
             android:id="@+id/nav_search"
             android:title="@string/search" />
         <item
+            android:icon="@drawable/ic_bus_stop"
             android:id="@+id/nav_all_station"
             android:title="@string/all_station" />
         <item
+            android:icon="@drawable/rupee_indian"
             android:id="@+id/fare"
             android:title="@string/fare_"/>
         <item
+            android:icon="@drawable/location"
             android:id="@+id/nav_bus"
             android:title="@string/track_bus_location" />
         <item
+            android:icon="@drawable/feedback"
             android:id="@+id/nav_feedback"
             android:title="@string/str_feedback" />
         <item
+            android:icon="@drawable/about"
             android:id="@+id/nav_about"
             android:title="@string/str_about" />
         <item
+            android:icon="@drawable/logout"
             android:id="@+id/nav_logout"
             android:title="Logout"/>
+
+        <!--<item android:id="@+id/verify_phone_activity"-->
+            <!--android:title="Verify Phone"/>-->
     </group>
 </menu>

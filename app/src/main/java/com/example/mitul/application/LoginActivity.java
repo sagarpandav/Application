@@ -16,6 +16,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public DatabaseHelper databaseHelper;
     private SharedPreferences sharedPreferences;
+    private DataHelper dataHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         databaseHelper  = new DatabaseHelper(LoginActivity.this);
+        dataHelper = new DataHelper(this);
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(_password.equals(_password_)){
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("username", _email);
+                    editor.putString("id", String.valueOf(dataHelper.user_id(_email)));
                     editor.apply();
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);

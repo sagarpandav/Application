@@ -15,6 +15,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.mitul.application.DatabaseHelper.COLUMN1;
+import static com.example.mitul.application.DatabaseHelper.COLUMN2;
+import static com.example.mitul.application.DatabaseHelper.COLUMN3;
+import static com.example.mitul.application.DatabaseHelper.COLUMN4;
+import static com.example.mitul.application.DatabaseHelper.TABLE_NAME;
+
 public class DataHelper extends SQLiteOpenHelper {
 
     private static String DB_NAME = "mydb.db";
@@ -23,6 +29,11 @@ public class DataHelper extends SQLiteOpenHelper {
     private final Context context;
     private SQLiteDatabase sqLiteDatabase;
     public static final String sourceStation = "source_station";
+    public static final String COLUMN1 = "u_id";
+    public static final String COLUMN2 = "ticket_id";
+    public static final String COLUMN3 = "source";
+    public static final String COLUMN4 = "destination";
+    public static final String COLUMN5 = "fare";
 
     public DataHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -70,6 +81,7 @@ public class DataHelper extends SQLiteOpenHelper {
         }
         return checkDB != null;
     }
+
 
     private void copyDatabase() throws IOException{
 
@@ -181,6 +193,18 @@ public class DataHelper extends SQLiteOpenHelper {
 
     }
 
+    public int user_id(String email){
+        sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select _id from user where email=\""+email+"\"",null);
+        int id = 0;
+        if(cursor.moveToFirst()){
+            do{
+                id = cursor.getInt(1);
+            }while (cursor.moveToNext());
+        }
+        return id;
+    }
+
     public double longitudeStation(String _StationName_){
         sqLiteDatabase = this.getReadableDatabase();
         String query = "select station_name,longitude from station";
@@ -199,6 +223,28 @@ public class DataHelper extends SQLiteOpenHelper {
         }
         sqLiteDatabase.close();
         return _longitudeStation;
+    }
+
+    public void insertTicket(int user_id, int ticket_id, String source, String des, String fare){
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        String TABLE_NAME = "ticket";
+
+        contentValues.put(COLUMN1, user_id);
+        contentValues.put(COLUMN2, ticket_id);
+        contentValues.put(COLUMN3, source);
+        contentValues.put(COLUMN4, des);
+        contentValues.put(COLUMN5, fare);
+
+        sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+
+        String query = "select * from ticket";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        int count = cursor.getCount();
+
+        Log.e("TAG",String.valueOf(count));
+        cursor.close();
+        sqLiteDatabase.close();
     }
 
     public double latitudeStation(String _StationName_){

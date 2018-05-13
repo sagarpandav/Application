@@ -53,7 +53,7 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.BusViewHolder>{
                 public void onClick(View v) {
                     //TODO Display all bus for this station.
 
-//                    itemView.getContext().startActivity(new Intent(itemView.getContext(), LocationActivity.class));
+                 itemView.getContext().startActivity(new Intent(itemView.getContext(), LocationActivity.class));
                 }
             });
         }

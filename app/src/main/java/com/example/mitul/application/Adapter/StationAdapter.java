@@ -1,11 +1,13 @@
 package com.example.mitul.application.Adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.mitul.application.LocationActivity;
 import com.example.mitul.application.R;
 import com.example.mitul.application.StationInfo;
 
@@ -39,7 +41,7 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.StationV
 
     public class StationViewHolder extends RecyclerView.ViewHolder {
         TextView list_station;
-        public StationViewHolder(View itemView) {
+        public StationViewHolder(final View itemView) {
             super(itemView);
 
             list_station = itemView.findViewById(R.id.stationList_text);

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "905986346323",
+    "firebase_url": "https://test-c7eac.firebaseio.com",
+    "project_id": "test-c7eac",
+    "storage_bucket": "test-c7eac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905986346323:android:43c16ca8191db5db",
+        "android_client_info": {
+          "package_name": "com.example.mitul.application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905986346323-5qet1966e2jh3caor1ooa91ce0to06q8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mitul.application",
+            "certificate_hash": "57c41a3d35751f35ba5914e7be2f6ec1d9c12f46"
+          }
+        },
+        {
+          "client_id": "905986346323-vovtibs925rtau9o7c3bc40mdjj8a5bg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6r4ViiLdjYs9d72A2S8MxfsJcaJmLgIQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905986346323-vovtibs925rtau9o7c3bc40mdjj8a5bg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

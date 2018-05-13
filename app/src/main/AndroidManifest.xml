@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
     <permission
         android:name="com.example.mitul.application.permission.MAP_RECEIVE"
@@ -97,8 +98,11 @@
             android:name=".BusActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".LocationActivity"></activity>
-        <activity android:name=".PaymentActivity"></activity>
+        <activity
+            android:name=".LocationActivity"
+            android:parentActivityName=".BusActivity" />
+        <activity android:name=".PaymentActivity" />
+        <activity android:name=".PhoneVerificationActivity"></activity>
     </application>
 
 </manifest>

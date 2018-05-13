@@ -11,6 +11,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +21,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mitul.application.Adapter.BusAdapter;
 import com.example.mitul.application.api.directionapi.DirectionClient;
 import com.example.mitul.application.api.directionapi.response.GoogleDirectionResponse;
 import com.example.mitul.application.api.directionapi.response.Route;
+import com.example.mitul.application.api.main.MainApiClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,10 +60,16 @@ public class RouteActivity extends AppCompatActivity
         GoogleMap.OnMarkerClickListener,
         GoogleMap.OnMarkerDragListener{
 
+    private String e;
     DataHelper dataHelper;
     LocationRequest mLocationRequest;
     GoogleMap mGoogleMap;
     GoogleApiClient mGoogleApiClient;
+
+    private RecyclerView recyclerView;
+    private List<BusInfo> busInfoList = new ArrayList<>();
+    private String source;
+    private String destination;
 
     double longitudeSource,latitudeSource;
     double end_latitude, end_longitude;
@@ -74,11 +84,33 @@ public class RouteActivity extends AppCompatActivity
             init();
         }
 
+        int routeNoArr[] = {101, 105, 211, 205};
+        String routeNameArr[] = {"Varaccha - Bhatar", "Sahara Darwaja - Athwa Gate", "Bus Station - V.R.Mall", "Railway Station - Piplod "};
+
+        for (int i =0; i<routeNameArr.length; i++){
+            BusInfo current = new BusInfo(routeNoArr[i], routeNameArr[i]);
+            busInfoList.add(current);
+        }
+
+        final Intent intent = getIntent();
+        source = intent.getExtras().getString("source");
+        destination = intent.getExtras().getString("destination");
+
+        callAPI();
+
+        recyclerView = findViewById(R.id.route_busList_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        BusAdapter adapter = new BusAdapter();
+        adapter.changeData(busInfoList);
+        recyclerView.setAdapter(adapter);
         Button btnBook = findViewById(R.id.btnbookroute);
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentQr = new Intent(RouteActivity.this, PaymentActivity.class);
+                intentQr.putExtra("Fare", e);
+                intentQr.putExtra("source", source);
+                intentQr.putExtra("destination", destination);
                 startActivity(intentQr);
             }
         });
@@ -103,13 +135,36 @@ public class RouteActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
     }
 
+    private void callAPI() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://localhost:55616/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        MainApiClient myClient = retrofit.create(MainApiClient.class);
+
+        Call<Object> call = myClient.getBusList(source, destination);
+
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                String data = response.body().toString();
+                Log.e("Response", data);
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.e("Response", "No");
+            }
+        });
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        Intent intent = getIntent();
+
         dataHelper = new DataHelper(getApplicationContext());
-        String source = intent.getExtras().getString("source");
-        String destination = intent.getExtras().getString("destination");
+
 
         TextView textView1 = (TextView) findViewById(R.id.textViewDes);
         TextView textView2 = (TextView) findViewById(R.id.textViewSou);
@@ -161,7 +216,7 @@ public class RouteActivity extends AppCompatActivity
         markerOptions.snippet("Distance: " +results[0]/1000 + "km" );
         int g = (int) (results[0]/1000);
         String d = String.valueOf((results[0]/1000));
-        String e = String.valueOf(g*2);
+        e = String.valueOf(g*2);
         textViewFare.setText(e);
         mGoogleMap.addMarker(markerOptions);
         textView4.setText(d);

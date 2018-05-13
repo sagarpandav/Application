@@ -138,7 +138,17 @@ public class PaymentActivity extends AppCompatActivity implements OneClickPaymen
 //                            }
 //                        }).show();
 
-                startActivity(new Intent(this, TicketActivity.class));
+                final Intent intent = getIntent();
+                String source = intent.getExtras().getString("source");
+                String destination = intent.getExtras().getString("destination");
+                String fare = intent.getExtras().getString("fare");
+
+                Intent ticketIntent = new Intent(this, TicketActivity.class);
+
+                ticketIntent.putExtra("Fare", fare);
+                ticketIntent.putExtra("source", source);
+                ticketIntent.putExtra("destination", destination);
+                startActivity(ticketIntent);
 
 
             } else {
@@ -153,7 +163,10 @@ public class PaymentActivity extends AppCompatActivity implements OneClickPaymen
     public void navigateToBaseActivity() {
 
         merchantKey = "gtKFFx";
-        String amount = "10";
+        String amount = getIntent().getStringExtra("Fare");
+        if(amount == null) {
+            amount = "10";
+        }
         String email = "demo@gmail.com";
 
         String value = "Test";
